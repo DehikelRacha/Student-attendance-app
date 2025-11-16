@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Attendance Tracker</title>
+
+<style>
+/* ===== GENERAL + NAVBAR ===== */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #E8DBC4;
+  margin: 0;
+}
+
+nav {
+  background: linear-gradient(90deg, #561C24, #6D2932);
+  color: #E8DBC4;
+  padding: 14px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav .title { font-size: 1.4em; font-weight: 600; }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: #E8DBC4;
+  text-decoration: none;
+  font-weight: 500;
+}
+nav a:hover { color: #C7B7A3; }
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+h1 { text-align: center; color:#561C24; }
+h2 { border-left:5px solid #561C24; padding-left:10px; color:#6D2932; }
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+th {
+  background:#C7B7A3;
+  color:#561C24;
+  padding:8px;
+  border:1px solid #6D2932;
+}
+td {
+  padding:8px;
+  border:1px solid #C7B7A3;
+  text-align:center;
+}
+tbody tr td { background:white !important; }
+
+/* checkboxes */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color:#6D2932;
+}
+
+/* highlight */
+.good td { background:#A5E6A1 !important; }
+.warning td { background:#FFF8A6 !important; }
+.danger td { background:#F28B82 !important; color:white !important; }
+
+/* delete button */
+.delete-btn {
+  background:#6D2932;
+  color:#E8DBC4;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+}
+.delete-btn:hover { background:#561C24; }
+
+form {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:25px;
+}
+label { font-weight:600; color:#561C24; }
+input[type="text"], input[type="email"] {
+  width:100%;
+  padding:9px;
+  border:1px solid #C7B7A3;
+  border-radius:6px;
+}
+button {
+  grid-column:span 2;
+  background:linear-gradient(90deg,#6D2932,#561C24);
+  color:#E8DBC4;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+button:hover{transform:scale(1.05);}
+.error{color:#6D2932;font-weight:bold;font-size:14px;}
+
+.report-box{
+  margin-top:20px;
+  padding:16px;
+  border-radius:8px;
+  background:#C7B7A3;
+  color:#561C24;
+}
+.report-row{display:flex;gap:14px;align-items:center;margin:6px 0;}
+.report-value{font-weight:700;color:#6D2932;margin-left:8px;}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="title">Attendance System</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#attendance">Attendance</a></li>
+    <li><a href="#add">Add Student</a></li>
+    <li><a href="#report" id="reportLink">Report</a></li>
+    <li><a href="#" id="logoutBtn">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container" id="home">
+<h1>Student Attendance Tracker</h1>
+
+<h2 id="attendance">Attendance Table</h2>
+
+<table id="attendanceTable">
+  <thead>
+    <tr>
+      <th>Last</th><th>First</th>
+
+      <th colspan="2">S1</th>
+      <th colspan="2">S2</th>
+      <th colspan="2">S3</th>
+      <th colspan="2">S4</th>
+      <th colspan="2">S5</th>
+      <th colspan="2">S6</th>
+
+      <th>Abs</th><th>Part</th><th>Message</th><th>Action</th>
+    </tr>
+
+    <tr>
+      <th></th><th></th>
+      <th>P</th><th>Part</th>
+      <th>P</th><th>Part</th>
+      <th>P</th><th>Part</th>
+      <th>P</th><th>Part</th>
+      <th>P</th><th>Part</th>
+      <th>P</th><th>Part</th>
+      <th></th><th></th><th></th><th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <!-- Row 1 FIXED touched=true -->
+    <tr data-touched="true">
+      <td>Dehikel</td><td>Racha</td>
+
+      <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+
+      <td class="abs"></td>
+      <td class="part"></td>
+      <td class="msg"></td>
+      <td><button class="delete-btn">Delete</button></td>
+    </tr>
+
+    <!-- Row 2 -->
+    <tr data-touched="true">
+      <td>Djelouah</td><td>Zineb</td>
+
+      <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+
+      <td class="abs"></td>
+      <td class="part"></td>
+      <td class="msg"></td>
+      <td><button class="delete-btn">Delete</button></td>
+    </tr>
+
+    <!-- Row 3 -->
+    <tr data-touched="true">
+      <td>Yacine</td><td>Ali</td>
+
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox" checked></td>
+      <td><input type="checkbox"></td><td><input type="checkbox" checked></td>
+      <td><input type="checkbox" checked></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+      <td><input type="checkbox"></td><td><input type="checkbox"></td>
+
+      <td class="abs"></td>
+      <td class="part"></td>
+      <td class="msg"></td>
+      <td><button class="delete-btn">Delete</button></td>
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+<form id="studentForm">
+  <div>
+    <label>Student ID</label>
+    <input type="text" id="id">
+    <div class="error" id="idError"></div>
+  </div>
+
+  <div>
+    <label>Last Name</label>
+    <input type="text" id="lastName">
+    <div class="error" id="lastError"></div>
+  </div>
+
+  <div>
+    <label>First Name</label>
+    <input type="text" id="firstName">
+    <div class="error" id="firstError"></div>
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input type="email" id="email">
+    <div class="error" id="emailError"></div>
+  </div>
+
+  <button type="submit">Validate</button>
+</form>
+
+<div class="report-box" id="report">
+  <h3>📊 Attendance Report</h3>
+  <div class="report-row">Total students: <div class="report-value" id="rTotal">0</div></div>
+  <div class="report-row">Present at least once: <div class="report-value" id="rPresent">0</div></div>
+  <div class="report-row">Participated at least once: <div class="report-value" id="rParticipated">0</div></div>
+  <div class="report-row">Excluded (5+ abs): <div class="report-value" id="rExcluded">0</div></div>
+  <div class="report-row">Attendance rate: <div class="report-value" id="rAttendanceRate">0%</div></div>
+  <div class="report-row">Participation rate: <div class="report-value" id="rParticipationRate">0%</div></div>
+</div>
+
+</div>
+
+<script>
+/* =============================
+       EX1 HIGHLIGHT LOGIC
+============================= */
+function updateAttendance() {
+  const rows = document.querySelectorAll("#attendanceTable tbody tr");
+
+  rows.forEach(row => {
+    const checks = row.querySelectorAll("input");
+    let abs = 0;
+    let part = 0;
+
+    // absences
+    for (let i = 0; i < 12; i += 2) {
+      if (!checks[i].checked) abs++;
+    }
+
+    // participation
+    for (let i = 1; i < 12; i += 2) {
+      if (checks[i].checked) part++;
+    }
+
+    row.querySelector(".abs").textContent = abs;
+    row.querySelector(".part").textContent = part;
+
+    // clear color
+    row.classList.remove("good","warning","danger");
+
+    // highlight always ON now
+    if (abs < 3) row.classList.add("good");
+    else if (abs <= 4) row.classList.add("warning");
+    else row.classList.add("danger");
+
+    // message
+    const msg = row.querySelector(".msg");
+
+    if (abs < 3) {
+      msg.textContent = part >= 3 
+        ? "Good attendance – Excellent participation" 
+        : "Good attendance – Needs more participation";
+    }
+    else if (abs <= 4) msg.textContent = "Warning – Attendance low";
+    else msg.textContent = "Excluded – Too many absences";
+  });
+}
+
+/* When any checkbox changes (delegated) - supports dynamic rows */
+document.querySelector("#attendanceTable tbody").addEventListener("change", e => {
+  if (e.target && e.target.matches("input[type='checkbox']")) {
+    updateAttendance();
+    updateReport();
+  }
+});
+
+/* =============================
+         DELETE BUTTON
+============================= */
+document.querySelector("#attendanceTable tbody").addEventListener("click", e => {
+  if (e.target.classList.contains("delete-btn")) {
+    e.target.closest("tr").remove();
+    updateReport();
+  }
+});
+
+/* =============================
+         REPORT SYSTEM
+============================= */
+function updateReport() {
+  const rows = [...document.querySelectorAll("#attendanceTable tbody tr")];
+
+  const total = rows.length;
+  let presentStudents = 0;
+  let participatedStudents = 0;
+  let excluded = 0;
+
+  rows.forEach(row => {
+    const checks = row.querySelectorAll("input");
+
+    let abs = 0;
+    let present = false;
+    let part = false;
+
+    for (let i = 0; i < 12; i += 2) {
+      if (!checks[i].checked) abs++;
+      else present = true;
+    }
+
+    for (let i = 1; i < 12; i += 2) {
+      if (checks[i].checked) part = true;
+    }
+
+    if (present) presentStudents++;
+    if (part) participatedStudents++;
+    if (abs >= 5) excluded++;
+  });
+
+  document.getElementById("rTotal").textContent = total;
+  document.getElementById("rPresent").textContent = presentStudents;
+  document.getElementById("rParticipated").textContent = participatedStudents;
+  document.getElementById("rExcluded").textContent = excluded;
+
+  document.getElementById("rAttendanceRate").textContent =
+    total ? ((presentStudents / total)*100).toFixed(1)+"%" : "0%";
+
+  document.getElementById("rParticipationRate").textContent =
+    total ? ((participatedStudents / total)*100).toFixed(1)+"%" : "0%";
+}
+
+updateAttendance();
+updateReport();
+
+/* =============================
+       EX2 FORM VALIDATION
+============================= */
+document.getElementById("studentForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  let valid = true;
+
+  const id = document.getElementById("id");
+  const ln = document.getElementById("lastName");
+  const fn = document.getElementById("firstName");
+  const email = document.getElementById("email");
+
+  const idE = document.getElementById("idError");
+  const lnE = document.getElementById("lastError");
+  const fnE = document.getElementById("firstError");
+  const emE = document.getElementById("emailError");
+
+  idE.textContent = lnE.textContent = fnE.textContent = emE.textContent = "";
+
+  if (!/^[0-9]+$/.test(id.value)) {
+    idE.textContent = "ID must be numbers only";
+    valid = false;
+  }
+  if (!/^[A-Za-z]+$/.test(ln.value)) {
+    lnE.textContent = "Letters only";
+    valid = false;
+  }
+  if (!/^[A-Za-z]+$/.test(fn.value)) {
+    fnE.textContent = "Letters only";
+    valid = false;
+  }
+
+  if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email.value)) {
+    emE.textContent = "Invalid email format";
+    valid = false;
+  }
+
+  if (valid) {
+     alert("Form validated successfully!");
+     table = document.getElementById("attendanceTable")
+      tbody = table.querySelector("tbody");
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${ln.value}</td>
+        <td>${fn.value}</td>
+
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+        <td><input type="checkbox"></td><td><input type="checkbox"></td>
+
+        <td class="abs"></td>
+        <td class="part"></td>
+        <td class="msg"></td>
+        <td><button class="delete-btn">Delete</button></td>
+      `;
+      tbody.appendChild(newRow);
+      document.getElementById("studentForm").reset();
+      
+}
+});
+
+/* =============================
+     REPORT + LOGOUT
+============================= */
+
+/* FIXED: removed extra parenthesis */
+document.getElementById("reportLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  updateReport();
+  document.getElementById("report").scrollIntoView({ behavior: "smooth" });
+});
+
+/* LOGOUT */
+document.getElementById("logoutBtn").addEventListener("click", e => {
+  e.preventDefault();
+  if (confirm("Are you sure you want to log out?")) {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:#E8DBC4;">
+        <h1 style="color:#561C24;">You have been logged out.</h1>
+        <p style="color:#6D2932;">Thank you for using the Attendance System.</p>
+      </div>`;
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
