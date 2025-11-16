@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Attendance Management System</title>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #E8DBC4;
+    color: #2b1a18;
+    margin: 0;
+  }
+
+  nav {
+    background: linear-gradient(90deg, #561C24, #6D2932);
+    color: #E8DBC4;
+    padding: 14px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  nav .title {
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #E8DBC4;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+
+  nav a:hover {
+    color: #C7B7A3;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #561C24;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    color: #6D2932;
+    border-left: 5px solid #561C24;
+    padding-left: 10px;
+    margin-top: 40px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  th, td {
+    border: 1px solid #C7B7A3;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background: #C7B7A3;
+    color: #561C24;
+  }
+
+  tr:nth-child(even) {
+    background-color: #F8F5EF;
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #6D2932;
+    cursor: pointer;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  label {
+    font-weight: 600;
+    color: #561C24;
+  }
+
+  input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #C7B7A3;
+    border-radius: 8px;
+    background: #F9F7F2;
+    transition: 0.3s;
+  }
+
+  input[type="text"]:focus, input[type="email"]:focus {
+    border-color: #6D2932;
+    outline: none;
+    box-shadow: 0 0 8px rgba(109,41,50,0.3);
+  }
+
+  button {
+    background: linear-gradient(90deg, #6D2932, #561C24);
+    border: none;
+    color: #E8DBC4;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(86,28,36,0.3);
+  }
+
+  .delete-btn {
+    background: #6D2932;
+    color: #E8DBC4;
+  }
+
+  .delete-btn:hover {
+    background: #561C24;
+  }
+
+  .success {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+
+  .report-box {
+    text-align: center;
+    margin-top: 25px;
+    padding: 20px;
+    background: #C7B7A3;
+    border-radius: 10px;
+    color: #561C24;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+
+  .report-box h3 {
+    color: #561C24;
+  }
+
+  .highlight {
+    color: #6D2932;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="title"> Attendance System</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#attendance">Attendance</a></li>
+    <li><a href="#add">Add Student</a></li>
+    <li><a href="#report" id="reportBtn">Report</a></li>
+    <li><a href="#" id="logoutBtn">Logout</a></li>
+  </ul>
+</nav>
+
+<div class="container" id="home">
+  <h1>Student Attendance Tracker</h1>
+
+  <h2 id="attendance">Attendance Table</h2>
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>ID</th><th>Last Name</th><th>First Name</th>
+        <th>Course</th><th>Date</th><th>Present</th><th>Participated</th><th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>101</td><td>Amira</td><td>Lina</td><td>Web Dev</td><td>12/10/2025</td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><button class="delete-btn">Delete</button></td>
+      </tr>
+      <tr>
+        <td>102</td><td>Sara</td><td>Yasmine</td><td>Web Dev</td><td>12/10/2025</td>
+        <td><input type="checkbox" class="present"></td>
+        <td><input type="checkbox" class="participated"></td>
+        <td><button class="delete-btn">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="add">Add New Student</h2>
+  <form id="studentForm">
+    <div>
+      <label for="id">Student ID:</label>
+      <input type="text" id="id" required>
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" required>
+    </div>
+    <div>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+    </div>
+    <button type="submit">Add Student</button>
+  </form>
+  <div class="success" id="message"></div>
+
+  <div class="report-box" id="report">
+    <h3>📊 Attendance Report</h3>
+    <p>Total Students: <span class="highlight" id="totalStudents">0</span></p>
+    <p>Attendance Rate: <span class="highlight" id="attendanceRate">0%</span></p>
+    <p>Participation Rate: <span class="highlight" id="participationRate">0%</span></p>
+  </div>
+</div>
+
+<script>
+const tableBody = document.querySelector("#attendanceTable tbody");
+const form = document.getElementById("studentForm");
+const msg = document.getElementById("message");
+
+function updateReport() {
+  const students = tableBody.querySelectorAll("tr");
+  const total = students.length;
+  let present = 0, participated = 0;
+
+  students.forEach(row => {
+    if (row.querySelector(".present")?.checked) present++;
+    if (row.querySelector(".participated")?.checked) participated++;
+  });
+
+  const attRate = total ? ((present / total) * 100).toFixed(1) : 0;
+  const partRate = total ? ((participated / total) * 100).toFixed(1) : 0;
+
+  document.getElementById("totalStudents").textContent = total;
+  document.getElementById("attendanceRate").textContent = attRate + "%";
+  document.getElementById("participationRate").textContent = partRate + "%";
+}
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const id = document.getElementById("id").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const firstName = document.getElementById("firstName").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  if (!id || !lastName || !firstName || !email) {
+    msg.textContent = "⚠️ Please fill in all fields.";
+    msg.style.color = "#6D2932";
+    return;
+  }
+
+  const newRow = document.createElement("tr");
+  newRow.innerHTML = `
+    <td>${id}</td>
+    <td>${lastName}</td>
+    <td>${firstName}</td>
+    <td>Web Dev</td>
+    <td>12/10/2025</td>
+    <td><input type="checkbox" class="present"></td>
+    <td><input type="checkbox" class="participated"></td>
+    <td><button class="delete-btn">Delete</button></td>
+  `;
+  tableBody.appendChild(newRow);
+  msg.textContent = "✅ Student added successfully!";
+  msg.style.color = "#561C24";
+  form.reset();
+  updateReport();
+});
+
+tableBody.addEventListener("change", updateReport);
+
+tableBody.addEventListener("click", e => {
+  if (e.target.classList.contains("delete-btn")) {
+    e.target.closest("tr").remove();
+    updateReport();
+  }
+});
+
+document.getElementById("reportBtn").addEventListener("click", e => {
+  e.preventDefault();
+  updateReport();
+  document.getElementById("report").scrollIntoView({ behavior: "smooth" });
+});
+
+document.getElementById("logoutBtn").addEventListener("click", e => {
+  e.preventDefault();
+  if (confirm("Are you sure you want to log out?")) {
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#E8DBC4;color:#561C24;font-family:Poppins;text-align:center;">
+        <h1>You have been logged out.</h1>
+        <p>Thank you for using the Attendance System </p>
+      </div>`;
+  }
+});
+
+updateReport();
+</script>
+</body>
+</html>
+
+
+
